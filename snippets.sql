@@ -1,1 +1,1 @@
-CREATE FULLTEXT INDEX ft_index ON items (title,description,keywords) WITH PARSER mecab;
+CREATE FULLTEXT INDEX ft_index ON Items (title,description,keywords) WITH PARSER mecab;
