@@ -4,6 +4,8 @@ module.exports = function(sequelize, DataTypes) {
     company_id: DataTypes.INTEGER,
     keyword: DataTypes.STRING,
     bid_price: DataTypes.INTEGER
+    url: DataTypes.INTEGER
+    image_url: DataTypes.INTEGER
   }, {
     classMethods: {
       associate: function(models) {

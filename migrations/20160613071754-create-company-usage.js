@@ -26,7 +26,7 @@ module.exports = {
       keyword: {
         type: Sequelize.STRING
       },
-      title: {
+      url: {
         type: Sequelize.STRING
       },
       image_url: {
