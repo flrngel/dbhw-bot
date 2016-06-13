@@ -2,6 +2,7 @@
 
 require('dotenv').config();
 
+const request = require('request')
 const http = require('http')
 // const express = require('express')
 const Bot = require('messenger-bot')
@@ -11,16 +12,23 @@ const await = require('asyncawait/await')
 const models = require("./models")
 const _ = require("lodash")
 
+// Define relation
+models.Company.hasMany(models.CompanyUsage)
+models.CompanyUsage.belongsTo(models.Company)
+
+// Bot init
 var bot = new Bot({
   token: process.env.TOKEN,
   verify: process.env.VERIFY_TOKEN,
   app_secret: process.env.APP_SECRET
 })
 
+// Error
 bot.on('error', (err) => {
   console.log(err.message)
 })
 
+// Main
 bot.on('message', async((payload, reply) => {
   console.log("message_start");
   let profile = await(new Promise((resolve, reject) => {
@@ -29,10 +37,57 @@ bot.on('message', async((payload, reply) => {
     })
   }))
 
-  let items = await(models.Item.findAll({
+  let keyword = payload.message.text
+
+  let companies = await(model.Company.findAll())
+  let hook_results = await(_.map(companies, (company) => {
+    return new Proimse((resolve, reject) => {
+      request({
+        method: "GET",
+        uri: company.hook_url,
+        timeout: 3000,
+        json: true
+      }, (error, res, body) => {
+        if ( error ) {
+          resolve(null)
+        }
+        else {
+          if ( body.bid === true ) {
+            resolve({
+              company_id: company.id,
+              bid_price: body.price,
+              keyword: keyword,
+              title: body.title,
+              image_url: body.image_url,
+              url: body.url
+            })
+          }
+          else {
+            resolve(null)
+          }
+        }
+      })
+    })
+  }))
+
+  let filltered_hook_results = _.reject(hook_results, (x) => x === null)
+
+  let bidded_elements = _.map(items, (item) => {
+    return {
+      title: item.title,
+      image_url: item.image_url,
+      buttons: [{
+        type: "web_url",
+        title: "구경하러 가기",
+        url: item.url
+      }]
+    }
+  })
+  
+  let placeholdings = await(models.Item.findAll({
     where: {
       title: {
-        $like: `%${payload.message.text}%`
+        $like: `%${keyword}%`
       }
     },
     order: [
@@ -40,7 +95,7 @@ bot.on('message', async((payload, reply) => {
     ]
   }))
 
-  let elements = _.take(_.map(items, (item) => {
+  let placeholding_elements = _.take(_.map(placeholdings, (item) => {
     return {
       title: item.dataValues.title,
       image_url: item.dataValues.image,
@@ -50,7 +105,9 @@ bot.on('message', async((payload, reply) => {
         url: item.dataValues.url
       }]
     }
-  }), 3)
+  }), 3 - filltered_hook_results)
+
+  let elements = _.concat(bidded_elements, placeholding_elements)
 
   await(reply({attachment: {
     type: "template",
