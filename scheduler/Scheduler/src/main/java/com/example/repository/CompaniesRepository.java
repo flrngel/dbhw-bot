@@ -14,7 +14,7 @@ import com.example.dao.Companies;
 @Transactional
 @RepositoryRestResource
 public interface CompaniesRepository extends PagingAndSortingRepository<Companies, String> {
-	@Query(value="SELECT * FROM user", nativeQuery = true)
+	@Query(value="SELECT * FROM companies", nativeQuery = true)
 	@Transactional
 	List<Companies> findAllU();
 	

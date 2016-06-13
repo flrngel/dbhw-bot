@@ -5,9 +5,9 @@ import java.util.Date;
 import org.springframework.data.rest.core.config.Projection;
 
 import com.example.dao.Companies;
-import com.example.dao.UserUsages;
+import com.example.dao.CompayUsages;
 
-@Projection(name = "UserUsageProjection", types = UserUsages.class)
+@Projection(name = "UserUsageProjection", types = CompayUsages.class)
 public interface UserUsageProjection {
 
 	int getUserUsageId();

@@ -25,18 +25,21 @@ import lombok.RequiredArgsConstructor;
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class UserUsages implements Serializable {
+public class CompayUsages implements Serializable {
 	@Id
 	@GeneratedValue
 	int id;
 
 	@JsonBackReference
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
-	@JoinColumn(name = "user_id", nullable = false)
-	Companies user;
+	@JoinColumn(name = "companies_id", nullable = false)
+	Companies company_id;
 
 	String keyword;
 	int bid_price;
+	
+	String url;
+	String image_url;
 
 	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
@@ -48,8 +51,8 @@ public class UserUsages implements Serializable {
 	@JsonSerialize(using = MyDateSerializer.class)
 	Date updatedAt;
 
-	public UserUsages(Companies user, String keyword, int bid_price, Date createdAt, Date updatedAt) {
-		this.user = user;
+	public CompayUsages(Companies company_id, String keyword, int bid_price, Date createdAt, Date updatedAt) {
+		this.company_id = company_id;
 		this.keyword = keyword;
 		this.bid_price = bid_price;
 		this.createdAt = createdAt;

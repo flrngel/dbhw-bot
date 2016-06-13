@@ -8,7 +8,7 @@ import org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguratio
 
 import com.example.dao.Companies;
 import com.example.dao.Items;
-import com.example.dao.UserUsages;
+import com.example.dao.CompayUsages;
 
 @Configuration
 public class MyCoolConfiguration extends RepositoryRestMvcConfiguration {
@@ -16,7 +16,7 @@ public class MyCoolConfiguration extends RepositoryRestMvcConfiguration {
     @Override
     protected void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
         config.exposeIdsFor(Companies.class);
-        config.exposeIdsFor(UserUsages.class);
+        config.exposeIdsFor(CompayUsages.class);
         config.exposeIdsFor(Items.class);
     }
 }

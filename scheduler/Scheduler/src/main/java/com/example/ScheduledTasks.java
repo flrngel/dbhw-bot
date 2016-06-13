@@ -2,7 +2,6 @@ package com.example;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -14,9 +13,9 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.example.dao.UserUsages;
-import com.example.repository.UserUsagesRepository;
+import com.example.dao.CompayUsages;
 import com.example.repository.CompaniesRepository;
+import com.example.repository.CompanyUsagesRepository;
 import com.example.service.MailMail;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
@@ -31,7 +30,7 @@ public class ScheduledTasks {
 	MailMail mailMail;
 
 	@Autowired
-	UserUsagesRepository userUsagesRepository;
+	CompanyUsagesRepository userUsagesRepository;
 
 	@Autowired
 	CompaniesRepository usersRepository;
@@ -40,8 +39,8 @@ public class ScheduledTasks {
 	@Scheduled(cron = "0 0 0 1 * *")
 	@Transactional
 	public void testMail() {
-		Multimap<String, UserUsages> multiMap = ArrayListMultimap.create();
-		List<UserUsages> usages = null;
+		Multimap<String, CompayUsages> multiMap = ArrayListMultimap.create();
+		List<CompayUsages> usages = null;
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_DATE_TIME;
 
 		LocalDate current = LocalDate.now();
@@ -64,17 +63,17 @@ public class ScheduledTasks {
 		System.out.println(testEnd);
 		System.out.println(usages);
 
-		for (UserUsages userUsage : usages) {
-			multiMap.put(userUsage.getUser().getEmail(), userUsage);
-			System.out.println("email : " + userUsage.getUser().getEmail());
+		for (CompayUsages userUsage : usages) {
+			multiMap.put(userUsage.getCompany_id().getEmail(), userUsage);
+			System.out.println("email : " + userUsage.getCompany_id().getEmail());
 		}
 
 		for (String toEmail : multiMap.keySet()) {
-			List<UserUsages> userUsages = (List<UserUsages>) multiMap.get(toEmail);
+			List<CompayUsages> userUsages = (List<CompayUsages>) multiMap.get(toEmail);
 			String msg = "";
 			int total = 0;
 
-			for (UserUsages userUsage : userUsages) {
+			for (CompayUsages userUsage : userUsages) {
 				msg += userUsage.getUpdatedAt() + " " + userUsage.getKeyword() + " " + userUsage.getBid_price() + "\n";
 				total += userUsage.getBid_price();
 			}
