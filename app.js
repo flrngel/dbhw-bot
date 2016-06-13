@@ -86,7 +86,7 @@ bot.on('message', async((payload, reply) => {
     }
   })
   
-  let placeholdings = await(models.sequelize.query("SELECT * FROM Items WHERE MATCH(title,description,keywords) AGAINST(? IN NATURAL LANGUAGE MODE)", {
+  let placeholdings = await(models.sequelize.query("SELECT * FROM Items WHERE MATCH(title,description,keywords) AGAINST(? IN BOOLEAN MODE)", {
     model: models.Item,
     replacements: [keyword],
     type: models.sequelize.QueryTypes.SELECT
