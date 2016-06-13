@@ -4,10 +4,10 @@ import java.util.Date;
 
 import org.springframework.data.rest.core.config.Projection;
 
-import com.example.dao.User;
-import com.example.dao.UserUsage;
+import com.example.dao.Users;
+import com.example.dao.UserUsages;
 
-@Projection(name = "UserUsageProjection", types = UserUsage.class)
+@Projection(name = "UserUsageProjection", types = UserUsages.class)
 public interface UserUsageProjection {
 
 	int getUserUsageId();
@@ -18,5 +18,5 @@ public interface UserUsageProjection {
 
 	Date getDate();
 
-	User getUser();
+	Users getUser();
 }
