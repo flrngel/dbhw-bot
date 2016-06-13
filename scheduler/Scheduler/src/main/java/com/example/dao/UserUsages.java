@@ -33,7 +33,7 @@ public class UserUsages implements Serializable {
 	@JsonBackReference
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id", nullable = false)
-	Users user;
+	Companies user;
 
 	String keyword;
 	int bid_price;
@@ -48,7 +48,7 @@ public class UserUsages implements Serializable {
 	@JsonSerialize(using = MyDateSerializer.class)
 	Date updatedAt;
 
-	public UserUsages(Users user, String keyword, int bid_price, Date createdAt, Date updatedAt) {
+	public UserUsages(Companies user, String keyword, int bid_price, Date createdAt, Date updatedAt) {
 		this.user = user;
 		this.keyword = keyword;
 		this.bid_price = bid_price;

@@ -29,7 +29,7 @@ import lombok.RequiredArgsConstructor;
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class Users implements Serializable {
+public class Companies implements Serializable {
 	@Id
 	@GeneratedValue
 	int id;

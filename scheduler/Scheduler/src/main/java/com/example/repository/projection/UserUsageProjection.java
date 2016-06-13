@@ -4,7 +4,7 @@ import java.util.Date;
 
 import org.springframework.data.rest.core.config.Projection;
 
-import com.example.dao.Users;
+import com.example.dao.Companies;
 import com.example.dao.UserUsages;
 
 @Projection(name = "UserUsageProjection", types = UserUsages.class)
@@ -18,5 +18,5 @@ public interface UserUsageProjection {
 
 	Date getDate();
 
-	Users getUser();
+	Companies getUser();
 }

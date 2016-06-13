@@ -9,15 +9,15 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-import com.example.dao.Users;
+import com.example.dao.Companies;
 
 @Transactional
 @RepositoryRestResource
-public interface UsersRepository extends PagingAndSortingRepository<Users, String> {
+public interface CompaniesRepository extends PagingAndSortingRepository<Companies, String> {
 	@Query(value="SELECT * FROM user", nativeQuery = true)
 	@Transactional
-	List<Users> findAllU();
+	List<Companies> findAllU();
 	
 	@Transactional
-	Users findByEmail(@Param("email") String email);
+	Companies findByEmail(@Param("email") String email);
 }

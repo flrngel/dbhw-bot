@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import com.example.repository.UsersRepository;
+import com.example.repository.CompaniesRepository;
 
 @SpringBootApplication
 @EnableScheduling
@@ -15,7 +15,7 @@ import com.example.repository.UsersRepository;
 public class SchedulerApplication implements CommandLineRunner{
 
 	@Autowired
-	UsersRepository userRepository;
+	CompaniesRepository userRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(SchedulerApplication.class, args);

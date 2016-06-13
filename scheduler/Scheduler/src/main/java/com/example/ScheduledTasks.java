@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 import com.example.dao.UserUsages;
 import com.example.repository.UserUsagesRepository;
-import com.example.repository.UsersRepository;
+import com.example.repository.CompaniesRepository;
 import com.example.service.MailMail;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
@@ -34,7 +34,7 @@ public class ScheduledTasks {
 	UserUsagesRepository userUsagesRepository;
 
 	@Autowired
-	UsersRepository usersRepository;
+	CompaniesRepository usersRepository;
 
 	// 매달 1일 00:00
 	@Scheduled(cron = "0 0 0 1 * *")
