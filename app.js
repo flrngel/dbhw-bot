@@ -39,7 +39,7 @@ bot.on('message', async((payload, reply) => {
 
   let keyword = payload.message.text
 
-  let companies = await(model.Company.findAll())
+  let companies = await(models.Company.findAll())
   let hook_results = await(_.map(companies, (company) => {
     return new Proimse((resolve, reject) => {
       request({
@@ -57,7 +57,6 @@ bot.on('message', async((payload, reply) => {
               company_id: company.id,
               bid_price: body.price,
               keyword: keyword,
-              title: body.title,
               image_url: body.image_url,
               url: body.url
             })
@@ -70,9 +69,12 @@ bot.on('message', async((payload, reply) => {
     })
   }))
 
-  let filltered_hook_results = _.reject(hook_results, (x) => x === null)
+  let filtered_hook_results = _.take(_.sortBy(_.reject(hook_results, (x) => x === null), (obj) => -parseInt(obj.bid_price)), 3)
 
-  let bidded_elements = _.map(items, (item) => {
+  // insert usage
+  async(_.each(filtered_hook_results, (obj) => models.CompanyUsage.create(obj)))
+
+  let bidded_elements = _.map(filtered_hook_results, (item) => {
     return {
       title: item.title,
       image_url: item.image_url,
@@ -105,7 +107,7 @@ bot.on('message', async((payload, reply) => {
         url: item.dataValues.url
       }]
     }
-  }), 3 - filltered_hook_results)
+  }), 3 - filtered_hook_results)
 
   let elements = _.concat(bidded_elements, placeholding_elements)
 
